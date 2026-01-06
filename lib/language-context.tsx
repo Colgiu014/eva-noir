@@ -1,0 +1,310 @@
+"use client";
+
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+
+type Language = "en" | "ro";
+
+interface LanguageContextType {
+  language: Language;
+  setLanguage: (lang: Language) => void;
+  t: (key: string) => string;
+}
+
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+
+const translations = {
+  en: {
+    "header.loading": "Loading...",
+    "header.admin": "Admin Dashboard",
+    "header.chat": "Chat",
+    "header.logout": "Log Out",
+    "header.login": "Log In",
+    "header.signup": "Sign Up",
+    "header.account": "Account",
+    
+    "footer.rights": "© 2026 Eva Maria. All rights reserved.",
+    
+    "home.title": "Your Intimate Escape",
+    "home.subtitle": "I'm Eva Maria, and I'm here to make your fantasies come true. Every conversation with me is private, personal, and unforgettable. Let's explore your deepest desires together...",
+    "home.cta": "Start Our Private Chat",
+    
+    "login.title": "EVA MARIA",
+    "login.subtitle": "Elite Model Management",
+    "login.heading": "Log In",
+    "login.email": "Email",
+    "login.password": "Password",
+    "login.emailPlaceholder": "you@example.com",
+    "login.passwordPlaceholder": "••••••••",
+    "login.button": "Log In",
+    "login.buttonLoading": "Logging In...",
+    "login.noAccount": "Don't have an account?",
+    "login.signupLink": "Sign Up",
+    
+    "signup.title": "EVA MARIA",
+    "signup.subtitle": "Elite Model Management",
+    "signup.heading": "Create Account",
+    "signup.email": "Email",
+    "signup.password": "Password",
+    "signup.confirmPassword": "Confirm Password",
+    "signup.emailPlaceholder": "you@example.com",
+    "signup.passwordPlaceholder": "••••••••",
+    "signup.button": "Sign Up",
+    "signup.buttonLoading": "Creating Account...",
+    "signup.haveAccount": "Already have an account?",
+    "signup.loginLink": "Log In",
+    "signup.passwordWeak": "Weak password",
+    "signup.passwordMedium": "Medium password",
+    "signup.passwordStrong": "Strong password",
+    "signup.passwordVeryStrong": "Very strong password",
+    "signup.rule1": "At least 8 characters",
+    "signup.rule2": "Uppercase and lowercase letters",
+    "signup.rule3": "At least one number",
+    "signup.rule4": "At least one symbol (!@#$%^&*)",
+    
+    "chat.admin": "Admin",
+    "chat.support": "Eva Maria",
+    "chat.noMessages": "No messages yet",
+    "chat.startConversation": "Start a conversation with Eva Maria",
+    "chat.you": "You",
+    "chat.placeholder": "Type your message...",
+    "chat.send": "Send",
+    "chat.sending": "Sending...",
+    
+    "admin.title": "Admin Dashboard",
+    "admin.allChats": "All User Chats",
+    "admin.noChats": "No chats yet",
+    "admin.noMessages": "No messages in this chat yet",
+    "admin.selectChat": "Select a chat to start messaging",
+    "admin.chatWith": "Chat with",
+    "admin.youAdmin": "You (Admin)",
+    "admin.typeMessage": "Type your message...",
+    
+    "account.title": "My Account",
+    "account.loading": "Loading...",
+    "account.profileTab": "Profile",
+    "account.securityTab": "Security",
+    "account.dangerTab": "Danger Zone",
+    "account.profile": "Profile",
+    "account.security": "Security",
+    "account.dangerZone": "Danger Zone",
+    "account.accountInfo": "Account Information",
+    "account.emailAddress": "Email Address",
+    "account.email": "Email Address",
+    "account.userId": "User ID",
+    "account.accountType": "Account Type",
+    "account.emailVerified": "Email Verified",
+    "account.verified": "Verified",
+    "account.notVerified": "Not Verified",
+    "account.memberSince": "Member since",
+    "account.administrator": "Administrator",
+    "account.user": "User",
+    "account.logout": "Logout",
+    "account.changeEmail": "Change Email Address",
+    "account.newEmail": "New Email",
+    "account.newEmailPH": "Enter new email address",
+    "account.currentPasswordVerify": "Current Password (for verification)",
+    "account.currentPasswordPH": "Enter your current password",
+    "account.updateEmail": "Update Email",
+    "account.updating": "Updating...",
+    "account.changePassword": "Change Password",
+    "account.currentPassword": "Current Password",
+    "account.newPassword": "New Password",
+    "account.newPasswordPH": "Enter new password (min 6 characters)",
+    "account.confirmPassword": "Confirm New Password",
+    "account.confirmPasswordPH": "Confirm new password",
+    "account.updatePassword": "Update Password",
+    "account.securityTips": "Security Tips",
+    "account.tip1": "Use a strong password with at least 8 characters",
+    "account.tip2": "Include uppercase, lowercase, numbers, and symbols",
+    "account.tip3": "Don't reuse passwords from other websites",
+    "account.tip4": "Change your password regularly",
+    "account.deleteWarning": "Once you delete your account, there is no going back. All your data will be permanently deleted.",
+    "account.deleteAccount": "Delete My Account",
+    "account.cannotUndo": "⚠️ This action cannot be undone!",
+    "account.confirmDelete": "Please enter your password to confirm account deletion.",
+    "account.enterPassword": "Enter your password",
+    "account.yesDelete": "Yes, Delete My Account",
+    "account.deleting": "Deleting...",
+    "account.cancel": "Cancel",
+    "account.chat": "Chat",
+    "account.startConversation": "Start a conversation",
+    "account.adminPanel": "Admin Panel",
+    "account.managePlatform": "Manage the platform",
+    "account.passwordMismatch": "Passwords don't match",
+    "account.passwordTooShort": "Password must be at least 6 characters",
+    "account.passwordUpdated": "Password updated successfully!",
+    "account.wrongPassword": "Current password is incorrect",
+    "account.weakPassword": "Password is too weak",
+    "account.passwordUpdateFailed": "Failed to update password. Please try again.",
+    "account.invalidEmail": "Please enter a valid email address",
+    "account.emailUpdated": "Email updated successfully!",
+    "account.emailInUse": "This email is already in use",
+    "account.emailUpdateFailed": "Failed to update email. Please try again.",
+    "account.accountDeleted": "Account deleted successfully",
+    "account.deleteFailed": "Failed to delete account. Please try again.",
+  },
+  ro: {
+    "header.loading": "Se încarcă...",
+    "header.admin": "Panou Admin",
+    "header.chat": "Chat",
+    "header.logout": "Deconectare",
+    "header.login": "Autentificare",
+    "header.signup": "Înregistrare",
+    "header.account": "Cont",
+    
+    "footer.rights": "© 2026 Eva Maria. Toate drepturile rezervate.",
+    
+    "home.title": "Evadarea Ta Intimă",
+    "home.subtitle": "Sunt Eva Maria și sunt aici să-ți împlinesc fanteziil. Fiecare conversație cu mine este privată, personală și de neuitat. Hai să explorăm împreună cele mai adânci dorințe ale tale...",
+    "home.cta": "Începe Conversația Noastră Privată",
+    
+    "login.title": "EVA MARIA",
+    "login.subtitle": "Management Modele de Elită",
+    "login.heading": "Autentificare",
+    "login.email": "Email",
+    "login.password": "Parolă",
+    "login.emailPlaceholder": "email@exemplu.ro",
+    "login.passwordPlaceholder": "••••••••",
+    "login.button": "Autentificare",
+    "login.buttonLoading": "Se autentifică...",
+    "login.noAccount": "Nu ai cont?",
+    "login.signupLink": "Înregistrare",
+    
+    "signup.title": "EVA MARIA",
+    "signup.subtitle": "Management Modele de Elită",
+    "signup.heading": "Creare Cont",
+    "signup.email": "Email",
+    "signup.password": "Parolă",
+    "signup.confirmPassword": "Confirmă Parola",
+    "signup.emailPlaceholder": "email@exemplu.ro",
+    "signup.passwordPlaceholder": "••••••••",
+    "signup.button": "Înregistrare",
+    "signup.buttonLoading": "Se creează contul...",
+    "signup.haveAccount": "Ai deja un cont?",
+    "signup.loginLink": "Autentificare",
+    "signup.passwordWeak": "Parolă slabă",
+    "signup.passwordMedium": "Parolă medie",
+    "signup.passwordStrong": "Parolă puternică",
+    "signup.passwordVeryStrong": "Parolă foarte puternică",
+    "signup.rule1": "Minim 8 caractere",
+    "signup.rule2": "Litere mari și mici",
+    "signup.rule3": "Cel puțin o cifră",
+    "signup.rule4": "Cel puțin un simbol (!@#$%^&*)",
+    
+    "chat.admin": "Eva Maria",
+    "chat.support": "Eva Maria",
+    "chat.noMessages": "Nu există mesaje încă",
+    "chat.startConversation": "Începe o conversație cu Eva Maria",
+    "chat.you": "Tu",
+    "chat.placeholder": "Scrie mesajul tău...",
+    "chat.send": "Trimite",
+    "chat.sending": "Se trimite...",
+    
+    "admin.title": "Panou Administrare",
+    "admin.allChats": "Toate Conversațiile",
+    "admin.noChats": "Nu există conversații încă",
+    "admin.noMessages": "Nu există mesaje în această conversație",
+    "admin.selectChat": "Selectează o conversație pentru a începe",
+    "admin.chatWith": "Chat cu",
+    "admin.youAdmin": "Tu (Admin)",
+    "admin.typeMessage": "Scrie mesajul tău...",
+    
+    "account.title": "Contul Meu",
+    "account.loading": "Se încarcă...",
+    "account.profileTab": "Profil",
+    "account.securityTab": "Securitate",
+    "account.dangerTab": "Zonă Periculoasă",
+    "account.profile": "Profil",
+    "account.security": "Securitate",
+    "account.dangerZone": "Zonă Periculoasă",
+    "account.accountInfo": "Informații Cont",
+    "account.emailAddress": "Adresă Email",
+    "account.email": "Adresă Email",
+    "account.userId": "ID Utilizator",
+    "account.accountType": "Tip Cont",
+    "account.emailVerified": "Email Verificat",
+    "account.verified": "Verificat",
+    "account.notVerified": "Neverificat",
+    "account.memberSince": "Membru din",
+    "account.administrator": "Administrator",
+    "account.user": "Utilizator",
+    "account.logout": "Deconectare",
+    "account.changeEmail": "Schimbă Adresa de Email",
+    "account.newEmail": "Email Nou",
+    "account.newEmailPH": "Introdu noua adresă de email",
+    "account.currentPasswordVerify": "Parola Curentă (pentru verificare)",
+    "account.currentPasswordPH": "Introdu parola curentă",
+    "account.updateEmail": "Actualizează Email",
+    "account.updating": "Se actualizează...",
+    "account.changePassword": "Schimbă Parola",
+    "account.currentPassword": "Parola Curentă",
+    "account.newPassword": "Parolă Nouă",
+    "account.newPasswordPH": "Introdu parola nouă (min 6 caractere)",
+    "account.confirmPassword": "Confirmă Parola Nouă",
+    "account.confirmPasswordPH": "Confirmă parola nouă",
+    "account.updatePassword": "Actualizează Parola",
+    "account.securityTips": "Sfaturi de Securitate",
+    "account.tip1": "Folosește o parolă puternică cu minim 8 caractere",
+    "account.tip2": "Include litere mari, mici, cifre și simboluri",
+    "account.tip3": "Nu refolosi parole de pe alte site-uri",
+    "account.tip4": "Schimbă parola regulat",
+    "account.deleteWarning": "Odată ce îți ștergi contul, nu mai există cale de întoarcere. Toate datele tale vor fi șterse permanent.",
+    "account.deleteAccount": "Șterge Contul Meu",
+    "account.cannotUndo": "⚠️ Această acțiune nu poate fi anulată!",
+    "account.confirmDelete": "Te rugăm să introduci parola pentru a confirma ștergerea contului.",
+    "account.enterPassword": "Introdu parola",
+    "account.yesDelete": "Da, Șterge Contul Meu",
+    "account.deleting": "Se șterge...",
+    "account.cancel": "Anulează",
+    "account.chat": "Chat",
+    "account.startConversation": "Începe o conversație",
+    "account.adminPanel": "Panou Admin",
+    "account.managePlatform": "Administrează platforma",
+    "account.passwordMismatch": "Parolele nu se potrivesc",
+    "account.passwordTooShort": "Parola trebuie să aibă cel puțin 6 caractere",
+    "account.passwordUpdated": "Parola a fost actualizată cu succes!",
+    "account.wrongPassword": "Parola curentă este incorectă",
+    "account.weakPassword": "Parola este prea slabă",
+    "account.passwordUpdateFailed": "Actualizarea parolei a eșuat. Te rugăm să încerci din nou.",
+    "account.invalidEmail": "Te rugăm să introduci o adresă de email validă",
+    "account.emailUpdated": "Email-ul a fost actualizat cu succes!",
+    "account.emailInUse": "Acest email este deja folosit",
+    "account.emailUpdateFailed": "Actualizarea email-ului a eșuat. Te rugăm să încerci din nou.",
+    "account.accountDeleted": "Contul a fost șters cu succes",
+    "account.deleteFailed": "Ștergerea contului a eșuat. Te rugăm să încerci din nou.",
+  },
+};
+
+export function LanguageProvider({ children }: { children: ReactNode }) {
+  const [language, setLanguageState] = useState<Language>("en");
+
+  useEffect(() => {
+    const savedLang = localStorage.getItem("language") as Language;
+    if (savedLang && (savedLang === "en" || savedLang === "ro")) {
+      setLanguageState(savedLang);
+    }
+  }, []);
+
+  const setLanguage = (lang: Language) => {
+    setLanguageState(lang);
+    localStorage.setItem("language", lang);
+  };
+
+  const t = (key: string): string => {
+    return translations[language][key as keyof typeof translations.en] || key;
+  };
+
+  return (
+    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+      {children}
+    </LanguageContext.Provider>
+  );
+}
+
+export function useLanguage() {
+  const context = useContext(LanguageContext);
+  if (context === undefined) {
+    throw new Error("useLanguage must be used within a LanguageProvider");
+  }
+  return context;
+}
