@@ -51,12 +51,12 @@ export default function AccountPage() {
     if (!file || !user) return;
 
     if (file.size > MAX_FILE_SIZE) {
-      showMessage("error", "Profile picture must be less than 5MB");
+      showMessage("error", t("account.fileSizeError"));
       return;
     }
 
     if (!file.type.startsWith("image/")) {
-      showMessage("error", "Please upload an image file");
+      showMessage("error", t("account.imageTypeError"));
       return;
     }
 
@@ -77,12 +77,12 @@ export default function AccountPage() {
 
       await updateUserProfilePicture(user.uid, downloadURL);
 
-      showMessage("success", "Profile picture updated successfully!");
+      showMessage("success", t("account.profilePictureUpdated"));
       
       window.location.reload();
     } catch (error) {
       console.error("Error uploading profile picture:", error);
-      showMessage("error", "Failed to upload profile picture. Please try again.");
+      showMessage("error", t("account.profilePictureError"));
     } finally {
       setUploadingImage(false);
     }
@@ -163,8 +163,8 @@ export default function AccountPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-black">
-        <div className="text-white text-lg">{t("account.loading")}</div>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-white text-lg drop-shadow-lg">{t("account.loading")}</div>
       </div>
     );
   }
@@ -174,19 +174,19 @@ export default function AccountPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white pt-24 pb-12">
+    <div className="min-h-screen text-white pt-24 pb-12">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold mb-2">{t("account.title")}</h1>
-          <p className="text-gray-400">{user.email}</p>
+          <h1 className="text-3xl sm:text-4xl font-bold mb-2 text-gray-800">{t("account.title")}</h1>
+          <p className="text-gray-700">{user.email}</p>
         </div>
 
         {message && (
           <div
-            className={`mb-6 p-4 rounded-lg border ${
+            className={`mb-6 p-4 rounded-2xl glass-light border shadow-xl ${
               message.type === "success"
-                ? "bg-green-900/20 border-green-800 text-green-300"
-                : "bg-red-900/20 border-red-800 text-red-300"
+                ? "border-green-400/40 text-green-100"
+                : "border-red-400/40 text-red-100"
             }`}
           >
             {message.text}
@@ -194,11 +194,11 @@ export default function AccountPage() {
         )}
 
         <div className="space-y-6">
-          <div className="bg-gray-900 border border-gray-800 rounded-lg p-6">
-            <h2 className="text-xl font-bold mb-6">Profile Picture</h2>
+          <div className="glass-light border border-white/20 rounded-3xl p-6 sm:p-8 shadow-2xl">
+            <h2 className="text-xl font-bold mb-6 text-gray-800">{t("account.profilePicture")}</h2>
             <div className="flex flex-col sm:flex-row items-center gap-6">
               <div className="relative">
-                <div className="w-32 h-32 rounded-full overflow-hidden bg-gray-800 border-2 border-gray-700">
+                <div className="w-32 h-32 rounded-full overflow-hidden glass-button border-2 border-white/40 shadow-2xl">
                   {userProfile?.profilePicture ? (
                     <Image
                       src={userProfile.profilePicture}
@@ -209,7 +209,7 @@ export default function AccountPage() {
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
-                      <svg className="w-16 h-16 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-16 h-16 text-white/50" fill="currentColor" viewBox="0 0 20 20">
                         <path
                           fillRule="evenodd"
                           d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
@@ -231,53 +231,36 @@ export default function AccountPage() {
                 <button
                   onClick={() => fileInputRef.current?.click()}
                   disabled={uploadingImage}
-                  className="px-6 py-3 bg-[#ff4747] hover:bg-[#ff3333] text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-6 py-3 glass-button bg-gradient-to-r from-pink-200/60 to-purple-200/60 text-gray-800 font-bold rounded-2xl transition-all shadow-xl hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 border border-white/30 cursor-pointer"
                 >
-                  {uploadingImage ? "Uploading..." : "Upload Profile Picture"}
+                  {uploadingImage ? t("account.uploading") : t("account.uploadProfilePicture")}
                 </button>
-                <p className="mt-2 text-sm text-gray-400">
-                  Maximum file size: 5MB. Supported formats: JPG, PNG, GIF
+                <p className="mt-3 text-sm text-gray-600">
+                  {t("account.maxFileSize")}
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="bg-gray-900 border border-gray-800 rounded-lg p-6">
-            <h2 className="text-xl font-bold mb-6">{t("account.accountInfo")}</h2>
+          <div className="glass-light border border-white/20 rounded-3xl p-6 sm:p-8 shadow-2xl">
+            <h2 className="text-xl font-bold mb-6 text-gray-800">{t("account.accountInfo")}</h2>
             <div className="space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3">
-                <span className="text-gray-400 mb-1 sm:mb-0">{t("account.email")}</span>
-                <span className="font-medium">{user.email}</span>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3 px-4 glass-button rounded-2xl">
+                <span className="text-gray-600 mb-1 sm:mb-0">{t("account.email")}</span>
+                <span className="font-semibold text-gray-800">{user.email}</span>
               </div>
             </div>
           </div>
 
-          <div className="bg-gray-900 border border-gray-800 rounded-lg p-6">
-            <h2 className="text-xl font-bold mb-6">Quick Actions</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <button
-                onClick={() => router.push(userProfile?.role === "admin" ? "/manage-7x9k2p4a" : "/chat")}
-                className="flex items-center gap-3 p-4 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
-              >
-                <svg className="w-6 h-6 text-[#ff4747]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                  />
-                </svg>
-                <div className="text-left">
-                  <div className="font-semibold">{t("account.chat")}</div>
-                  <div className="text-sm text-gray-400">{t("account.startConversation")}</div>
-                </div>
-              </button>
-              {userProfile?.role === "admin" && (
+          {userProfile?.role === "admin" && (
+            <div className="glass-light border border-white/20 rounded-3xl p-6 sm:p-8 shadow-2xl">
+              <h2 className="text-xl font-bold mb-6 text-gray-800">{t("account.quickActions")}</h2>
+              <div className="grid grid-cols-1 gap-4">
                 <button
                   onClick={() => router.push("/manage-7x9k2p4a")}
-                  className="flex items-center gap-3 p-4 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
+                  className="flex items-center gap-3 p-4 glass-button rounded-2xl transition-all transform hover:scale-105 shadow-lg cursor-pointer"
                 >
-                  <svg className="w-6 h-6 text-[#ff4747]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -287,35 +270,19 @@ export default function AccountPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                   <div className="text-left">
-                    <div className="font-semibold">{t("account.adminPanel")}</div>
-                    <div className="text-sm text-gray-400">{t("account.managePlatform")}</div>
+                    <div className="font-semibold text-gray-800">{t("account.adminPanel")}</div>
+                    <div className="text-sm text-gray-600">{t("account.managePlatform")}</div>
                   </div>
                 </button>
-              )}
-              <button
-                onClick={handleLogout}
-                className="flex items-center gap-3 p-4 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
-              >
-                <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                  />
-                </svg>
-                <div className="text-left">
-                  <div className="font-semibold">{t("account.logout")}</div>
-                </div>
-              </button>
+              </div>
             </div>
-          </div>
+          )}
 
-          <div className="bg-gray-900 border border-gray-800 rounded-lg p-6">
-            <h2 className="text-xl font-bold mb-6">{t("account.changePassword")}</h2>
-            <form onSubmit={handleUpdatePassword} className="space-y-4">
+          <div className="glass-light border border-white/20 rounded-3xl p-6 sm:p-8 shadow-2xl">
+            <h2 className="text-xl font-bold mb-6 text-gray-800">{t("account.changePassword")}</h2>
+            <form onSubmit={handleUpdatePassword} className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
                   {t("account.currentPassword")}
                 </label>
                 <input
@@ -323,12 +290,12 @@ export default function AccountPage() {
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
                   placeholder={t("account.currentPasswordPH")}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#ff4747]"
+                  className="w-full px-4 py-3.5 glass-button rounded-2xl text-gray-800 placeholder-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-400 transition-all shadow-lg"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
                   {t("account.newPassword")}
                 </label>
                 <input
@@ -336,12 +303,12 @@ export default function AccountPage() {
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder={t("account.newPasswordPH")}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#ff4747]"
+                  className="w-full px-4 py-3.5 glass-button rounded-2xl text-gray-800 placeholder-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-400 transition-all shadow-lg"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
                   {t("account.confirmPassword")}
                 </label>
                 <input
@@ -349,25 +316,25 @@ export default function AccountPage() {
                   value={confirmNewPassword}
                   onChange={(e) => setConfirmNewPassword(e.target.value)}
                   placeholder={t("account.confirmPasswordPH")}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#ff4747]"
+                  className="w-full px-4 py-3.5 glass-button rounded-2xl text-gray-800 placeholder-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-400 transition-all shadow-lg"
                   required
                 />
               </div>
               <button
                 type="submit"
                 disabled={isUpdating}
-                className="w-full px-6 py-3 bg-[#ff4747] hover:bg-[#ff3333] text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-6 py-4 glass-button bg-gradient-to-r from-pink-500/30 to-purple-500/30 text-gray-700 font-bold rounded-2xl transition-all shadow-2xl hover:shadow-pink-500/40 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] border border-white/30 cursor-pointer"
               >
                 {isUpdating ? t("account.updating") : t("account.updatePassword")}
               </button>
             </form>
           </div>
 
-          <div className="bg-gray-900 border border-gray-800 rounded-lg p-6">
-            <h2 className="text-xl font-bold mb-4">{t("account.securityTips")}</h2>
-            <ul className="space-y-2 text-gray-300">
+          <div className="glass-light border border-white/20 rounded-3xl p-6 sm:p-8 shadow-2xl">
+            <h2 className="text-xl font-bold mb-4 text-gray-800">{t("account.securityTips")}</h2>
+            <ul className="space-y-3 text-gray-700">
               <li className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-green-300 mt-0.5 flex-shrink-0 drop-shadow" fill="currentColor" viewBox="0 0 20 20">
                   <path
                     fillRule="evenodd"
                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
@@ -377,7 +344,7 @@ export default function AccountPage() {
                 <span>{t("account.tip1")}</span>
               </li>
               <li className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path
                     fillRule="evenodd"
                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
@@ -387,7 +354,7 @@ export default function AccountPage() {
                 <span>{t("account.tip2")}</span>
               </li>
               <li className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path
                     fillRule="evenodd"
                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
@@ -397,7 +364,7 @@ export default function AccountPage() {
                 <span>{t("account.tip3")}</span>
               </li>
               <li className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path
                     fillRule="evenodd"
                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
@@ -409,24 +376,24 @@ export default function AccountPage() {
             </ul>
           </div>
 
-          <div className="bg-red-900/10 border border-red-800 rounded-lg p-6">
-            <p className="text-gray-300 mb-6">{t("account.deleteWarning")}</p>
+          <div className="glass-dark border border-red-400/30 rounded-3xl p-6 sm:p-8 shadow-2xl">
+            <p className="text-gray-700 mb-6">{t("account.deleteWarning")}</p>
 
             {!showDeleteConfirm ? (
               <button
                 onClick={() => setShowDeleteConfirm(true)}
-                className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors"
+                className="px-6 py-3 glass-button bg-red-500/30 hover:bg-red-500/50 text-gray-700 font-bold rounded-2xl transition-all shadow-xl hover:shadow-red-500/40 border border-red-400/40 cursor-pointer"
               >
                 {t("account.deleteAccount")}
               </button>
             ) : (
               <div className="space-y-4">
-                <div className="p-4 bg-red-900/20 border border-red-800 rounded-lg">
-                  <p className="text-red-400 font-semibold mb-2">{t("account.cannotUndo")}</p>
-                  <p className="text-gray-300">{t("account.confirmDelete")}</p>
+                <div className="p-4 glass-dark border border-red-400/40 rounded-2xl backdrop-blur-xl">
+                  <p className="text-red-700 font-bold mb-2">{t("account.cannotUndo")}</p>
+                  <p className="text-gray-700">{t("account.confirmDelete")}</p>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
                     {t("account.enterPassword")}
                   </label>
                   <input
@@ -434,14 +401,14 @@ export default function AccountPage() {
                     value={deletePassword}
                     onChange={(e) => setDeletePassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-red-600"
+                    className="w-full px-4 py-3.5 glass-button rounded-2xl text-gray-800 placeholder-gray-800 focus:outline-none focus:ring-2 focus:ring-red-400/40 transition-all shadow-lg"
                   />
                 </div>
                 <div className="flex gap-3">
                   <button
                     onClick={handleDeleteAccount}
                     disabled={isUpdating || !deletePassword}
-                    className="flex-1 px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex-1 px-6 py-3 glass-button bg-red-500/40 hover:bg-red-500/60 text-white font-bold rounded-2xl transition-all shadow-xl disabled:opacity-50 disabled:cursor-not-allowed border border-red-400/40 cursor-pointer"
                   >
                     {isUpdating ? t("account.deleting") : t("account.yesDelete")}
                   </button>
@@ -451,13 +418,30 @@ export default function AccountPage() {
                       setDeletePassword("");
                     }}
                     disabled={isUpdating}
-                    className="flex-1 px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex-1 px-6 py-3 glass-button bg-gray-500/30 hover:bg-gray-500/50 text-gray-700 font-bold rounded-2xl transition-all shadow-xl disabled:opacity-50 disabled:cursor-not-allowed border border-white/30 cursor-pointer"
                   >
                     {t("account.cancel")}
                   </button>
                 </div>
               </div>
             )}
+          </div>
+
+          <div className="flex justify-center pt-4">
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-3 px-8 py-4 glass-button rounded-2xl transition-all transform hover:scale-105 shadow-lg cursor-pointer"
+            >
+              <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                />
+              </svg>
+              <div className="font-semibold text-gray-800">{t("account.logout")}</div>
+            </button>
           </div>
         </div>
       </div>

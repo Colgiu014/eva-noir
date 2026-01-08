@@ -1,0 +1,27 @@
+{
+  "name": "Eva Maria - Elite Model & Content Creator",
+  "short_name": "Eva Maria",
+  "description": "Connect with Eva Maria - Elite model and exclusive content creator. Premium photos, personalized chat experiences, and exclusive behind-the-scenes content.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#ff69b4",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["entertainment", "social"],
+  "lang": "en",
+  "dir": "ltr"
+}

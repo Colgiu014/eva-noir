@@ -132,7 +132,7 @@ export default function AdminPage() {
               <button
                 key={chat.id}
                 onClick={() => setSelectedChat(chat)}
-                className={`w-full p-4 border-b border-gray-800 text-left hover:bg-gray-900 transition-colors ${
+                className={`w-full p-4 border-b border-gray-800 text-left hover:bg-gray-900 transition-colors cursor-pointer ${
                   selectedChat?.id === chat.id ? "bg-gray-900" : ""
                 }`}
               >
@@ -243,7 +243,7 @@ export default function AdminPage() {
                             key={index}
                             type="button"
                             onClick={() => handleEmojiClick(emoji)}
-                            className="text-2xl hover:bg-gray-800 rounded-lg p-2 transition-colors"
+                            className="text-2xl hover:bg-gray-800 rounded-lg p-2 transition-colors cursor-pointer"
                           >
                             {emoji}
                           </button>
@@ -255,7 +255,7 @@ export default function AdminPage() {
                   <button
                     type="button"
                     onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                    className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors"
+                    className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors cursor-pointer"
                   >
                     <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -265,7 +265,7 @@ export default function AdminPage() {
                 <button
                   type="submit"
                   disabled={sending || !newMessage.trim()}
-                  className="w-10 h-10 sm:w-12 sm:h-12 bg-[#ff4747] hover:bg-[#ff3333] text-white rounded-full flex items-center justify-center transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#ff4747] flex-shrink-0"
+                  className="w-10 h-10 sm:w-12 sm:h-12 bg-[#ff4747] hover:bg-[#ff3333] text-white rounded-full flex items-center justify-center transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#ff4747] flex-shrink-0 cursor-pointer"
                 >
                   {sending ? (
                     <svg className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">

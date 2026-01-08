@@ -32,25 +32,26 @@ export default function LogIn() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-950 to-black flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center px-4 py-20">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-black text-white tracking-tight mb-2">{t("login.title")}</h1>
-          <p className="text-xs text-red-500 uppercase tracking-widest font-bold">{t("login.subtitle")}</p>
+          <h1 className="text-5xl font-black text-gray-800 tracking-tight mb-2 drop-shadow-lg">
+            {t("login.title")}
+          </h1>
         </div>
 
-        <div className="bg-gray-900/50 border border-gray-800 rounded-lg p-8">
-          <h2 className="text-2xl font-bold text-white mb-6">{t("login.heading")}</h2>
+        <div className="glass-light rounded-3xl p-8 sm:p-10 shadow-2xl">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6">{t("login.heading")}</h2>
 
           {error && (
-            <div className="mb-4 p-4 bg-red-900/20 border border-red-800 rounded text-red-400 text-sm">
+            <div className="mb-4 p-4 glass-dark rounded-2xl border border-red-400/30 text-red-200 text-sm backdrop-blur-xl">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-semibold text-gray-300 mb-2">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
                 {t("login.email")}
               </label>
               <input
@@ -58,13 +59,13 @@ export default function LogIn() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded text-white placeholder-gray-500 focus:outline-none focus:border-red-500 transition-colors"
+                className="w-full px-4 py-3.5 glass-button rounded-2xl text-gray-800 placeholder-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-400 transition-all shadow-lg"
                 placeholder={t("login.emailPlaceholder")}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-300 mb-2">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
                 {t("login.password")}
               </label>
               <div className="relative">
@@ -73,13 +74,13 @@ export default function LogIn() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full px-4 py-3 pr-12 bg-gray-800 border border-gray-700 rounded text-white placeholder-gray-500 focus:outline-none focus:border-red-500 transition-colors"
+                  className="w-full px-4 py-3.5 pr-12 glass-button rounded-2xl text-gray-800 placeholder-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-400 transition-all shadow-lg"
                   placeholder={t("login.passwordPlaceholder")}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-800 transition-colors p-1 rounded-lg hover:bg-white/30 cursor-pointer"
                 >
                   {showPassword ? (
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -98,15 +99,15 @@ export default function LogIn() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full mt-6 px-4 py-3 bg-red-600 hover:bg-red-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white font-bold rounded transition-colors"
+              className="w-full mt-6 px-4 py-4 glass-button disabled:opacity-50 disabled:cursor-not-allowed text-gray-800 font-bold rounded-2xl transition-all shadow-xl hover:shadow-2xl transform hover:scale-[1.02] bg-gradient-to-r from-pink-200/60 to-purple-200/60 disabled:transform-none cursor-pointer"
             >
               {loading ? t("login.buttonLoading") : t("login.button")}
             </button>
           </form>
 
-          <p className="text-center text-gray-400 text-sm mt-6">
+          <p className="text-center text-gray-700 text-sm mt-6">
             {t("login.noAccount")}{" "}
-            <Link href="/signup" className="text-red-500 hover:text-red-400 font-semibold">
+            <Link href="/signup" className="text-gray-900 font-bold hover:text-gray-700 transition-colors">
               {t("login.signupLink")}
             </Link>
           </p>
