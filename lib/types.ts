@@ -6,6 +6,7 @@ export interface Message {
   text: string;
   timestamp: Date;
   isAdmin: boolean;
+  imageUrl?: string;
 }
 
 export interface Chat {

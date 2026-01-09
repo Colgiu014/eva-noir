@@ -1,0 +1,20 @@
+{
+  "name": "functions",
+  "description": "Cloud Functions for eva-noir",
+  "scripts": {
+    "build": "tsc",
+    "deploy": "npm run build && firebase deploy --only functions"
+  },
+  "engines": {
+    "node": "20"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "firebase-admin": "^12.6.0",
+    "firebase-functions": "^6.1.1",
+    "openai": "^6.15.0"
+  },
+  "devDependencies": {
+    "typescript": "^5"
+  }
+}

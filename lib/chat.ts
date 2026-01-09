@@ -81,7 +81,8 @@ export const sendMessage = async (
   senderId: string,
   senderEmail: string,
   text: string,
-  isAdmin: boolean
+  isAdmin: boolean,
+  imageUrl?: string
 ) => {
   const messagesRef = collection(db, "chats", chatId, "messages");
   await addDoc(messagesRef, {
@@ -91,6 +92,7 @@ export const sendMessage = async (
     text,
     timestamp: serverTimestamp(),
     isAdmin,
+    imageUrl: imageUrl || null,
   });
 
   const chatRef = doc(db, "chats", chatId);
@@ -127,6 +129,7 @@ export const subscribeToMessages = (
         text: data.text,
         timestamp: data.timestamp?.toDate() || new Date(),
         isAdmin: data.isAdmin,
+        imageUrl: data.imageUrl || undefined,
       };
     });
     callback(messages);

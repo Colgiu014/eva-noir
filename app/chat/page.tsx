@@ -22,6 +22,7 @@ export default function ChatPage() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const emojiPickerRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -81,6 +82,12 @@ export default function ChatPage() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (!sending && !aiResponding) {
+      inputRef.current?.focus();
+    }
+  }, [sending, aiResponding]);
+
   const emojis = [
     "😊", "😂", "❤️", "😍", "🥰", "😘", "😎", "🤗", "🙌", "👍",
     "👏", "🙏", "💪", "✨", "🎉", "🔥", "💯", "⭐", "💖", "😉",
@@ -128,8 +135,8 @@ export default function ChatPage() {
       });
 
       if (response.ok) {
-        const { response: aiResponse } = await response.json();
-        await sendMessage(chatId, "ai-assistant", "Eva Maria AI", aiResponse, true);
+        const { response: aiResponse, imageUrl } = await response.json();
+        await sendMessage(chatId, "ai-assistant", "Eva Maria AI", aiResponse, true, imageUrl);
       } else {
         const errorData = await response.json().catch(() => ({ error: "Unknown error" }));
         console.error("Failed to get AI response:", response.status, errorData);
@@ -213,6 +220,17 @@ export default function ChatPage() {
                         }`}
                       >
                         <p className="break-words text-sm sm:text-base drop-shadow">{message.text}</p>
+                        {message.imageUrl && (
+                          <div className="mt-2 sm:mt-3 rounded-lg overflow-hidden max-w-xs">
+                            <Image
+                              src={message.imageUrl}
+                              alt="AI generated image"
+                              width={400}
+                              height={400}
+                              className="w-full h-auto object-cover rounded-lg"
+                            />
+                          </div>
+                        )}
                         <div className="text-[10px] sm:text-xs opacity-70 mt-0.5 sm:mt-1 drop-shadow">
                           {message.timestamp.toLocaleTimeString([], {
                             hour: "2-digit",
@@ -272,6 +290,7 @@ export default function ChatPage() {
               <form onSubmit={handleSend} className="px-3 sm:px-6 py-3 sm:py-4 flex gap-2 sm:gap-3">
           <div className="flex-1 relative" ref={emojiPickerRef}>
             <input
+              ref={inputRef}
               type="text"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}

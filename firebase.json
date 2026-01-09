@@ -1,4 +1,14 @@
 {
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "runtime": "nodejs20",
+      "build": {
+        "command": "npm run build"
+      }
+    }
+  ],
   "hosting": {
     "public": "out",
     "ignore": [
@@ -7,6 +17,10 @@
       "**/node_modules/**"
     ],
     "rewrites": [
+      {
+        "source": "/api/ai-chat",
+        "function": "aiChat"
+      },
       {
         "source": "**",
         "destination": "/index.html"
